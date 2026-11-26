@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work Hours &amp; Time Card Calculator | Time and Calculator Guide</title>
+  <meta name="description" content="Work hours and time card calculator guide. Learn how to calculate worked hours, subtract breaks, handle overtime and choose the best time and calculator tool.">
+  <meta name="keywords" content="time and calculator, work hours calculator, time card calculator, timesheet calculator">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yourdomain.com/work-hours-calculator/">
+  <meta property="og:title" content="Work Hours &amp; Time Card Calculator">
+  <meta property="og:description" content="Premium guide to time and calculator methods for accurate work hours and time cards.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://yourdomain.com/work-hours-calculator/">
+  <style>
+    :root {
+      --bg: #070b16;
+      --surface: #0f1628;
+      --surface-2: #151f36;
+      --gold: #d4af37;
+      --gold-light: #f3e5ab;
+      --text: #e8ecf5;
+      --muted: #9aa4bf;
+      --border: rgba(212, 175, 55, 0.22);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+    h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; line-height: 1.3; }
+
+    /* Animated background glow */
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(212,175,55,0.14), transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(63,94,251,0.12), transparent 45%);
+      animation: drift 18s ease-in-out infinite alternate;
+    }
+    @keyframes drift {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(-40px,30px) scale(1.08); }
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px 40px;
+      background: linear-gradient(180deg, rgba(212,175,55,0.08), transparent 70%);
+    }
+    .eyebrow {
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-size: 0.8rem;
+      margin: 0 0 12px;
+      animation: fadeUp 1s ease both;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 6vw, 3.6rem);
+      margin: 0 0 16px;
+      max-width: 900px;
+    }
+    .shimmer {
+      background: linear-gradient(90deg, var(--gold), var(--gold-light), #fff6d5, var(--gold-light), var(--gold));
+      background-size: 300% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shimmer 6s linear infinite;
+    }
+    @keyframes shimmer { to { background-position: 300% center; } }
+    .lead {
+      max-width: 680px;
+      color: var(--muted);
+      font-size: 1.1rem;
+      animation: fadeUp 1.4s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* Clock illustration */
+    .float { animation: float 6s ease-in-out infinite; margin-top: 24px; }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50%     { transform: translateY(-14px); }
+    }
+    .hand-m, .hand-h {
+      transform-box: view-box;
+      transform-origin: 100px 100px;
+    }
+    .hand-m { animation: spin 8s linear infinite; }
+    .hand-h { animation: spin 60s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Layout */
+    main { padding: 0 20px 80px; }
+    .container { max-width: 860px; margin: 0 auto; }
+
+    /* Calculator card */
+    .calc-card {
+      background: linear-gradient(145deg, var(--surface), var(--surface-2));
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      margin: 0 auto 60px;
+      max-width: 860px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+    }
+    .calc-card h2 { margin-top: 0; color: var(--gold-light); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    label { display: block; font-size: 0.9rem; color: var(--muted); margin-bottom: 6px; }
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 1rem;
+      transition: border-color .3s, box-shadow .3s;
+    }
+    input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(212,175,55,0.18);
+    }
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(90deg, var(--gold), #f0d77a);
+      color: #111;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212,175,55,0.35); }
+    .result {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: var(--gold-light);
+      text-align: center;
+      min-height: 1.6em;
+    }
+
+    /* Article */
+    article.article {
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(15,22,40,0.7);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px 40px;
+      backdrop-filter: blur(6px);
+    }
+    article h2 {
+      color: var(--gold-light);
+      font-size: 1.8rem;
+      margin-top: 2.4em;
+      padding-left: 16px;
+      border-left: 4px solid var(--gold);
+    }
+    article h3 { color: var(--gold); font-size: 1.3rem; margin-top: 1.8em; }
+    article p { color: #d6dcea; margin: 0 0 1.2em; font-size: 1.05rem; }
+    article a {
+      color: var(--gold);
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    article a:hover { color: var(--gold-light); }
+    article ul, article ol { color: #d6dcea; padding-left: 22px; }
+    article li { margin-bottom: 8px; }
+    figure {
+      margin: 32px 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    figure svg { max-width: 100%; height: auto; }
+    figcaption { color: var(--muted); font-size: 0.9rem; margin-top: 12px; }
+    .example {
+      background: var(--surface);
+      border-left: 3px solid var(--gold);
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin: 24px 0;
+    }
+
+    /* Reveal on scroll */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .9s ease, transform .9s ease; }
+    .reveal.show { opacity: 1; transform: none; }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 30px 20px 50px;
+      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 640px) {
+      article.article { padding: 28px 20px; }
+      .calc-card { padding: 22px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <header class="hero">
+    <p class="eyebrow">Premium Time Tracking</p>
+    <h1 class="shimmer">Work Hours &amp; Time Card Calculator</h1>
+    <p class="lead">Calculate worked hours, subtract breaks and understand overtime with a precise, professional time and calculator guide.</p>
+
+    <svg class="float" viewBox="0 0 200 200" width="180" role="img" aria-label="Animated clock illustrating work hour tracking">
+      <circle cx="100" cy="100" r="92" fill="none" stroke="#d4af37" stroke-width="4"/>
+      <circle cx="100" cy="100" r="82" fill="#0f1628"/>
+      <line x1="100" y1="26" x2="100" y2="38" stroke="#d4af37" stroke-width="4" stroke-linecap="round"/>
+      <line x1="174" y1="100" x2="162" y2="100" stroke="#d4af37" stroke-width="4" stroke-linecap="round"/>
+      <line x1="100" y1="174" x2="100" y2="162" stroke="#d4af37" stroke-width="4" stroke-linecap="round"/>
+      <line x1="26" y1="100" x2="38" y2="100" stroke="#d4af37" stroke-width="4" stroke-linecap="round"/>
+      <line class="hand-h" x1="100" y1="100" x2="100" y2="58" stroke="#f3e5ab" stroke-width="7" stroke-linecap="round"/>
+      <line class="hand-m" x1="100" y1="100" x2="140" y2="100" stroke="#d4af37" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="100" cy="100" r="6" fill="#d4af37"/>
+    </svg>
+  </header>
+
+  <main>
+    <!-- Working calculator -->
+    <section class="calc-card reveal" id="calculator" aria-labelledby="calc-title">
+      <h2 id="calc-title">Quick Time and Calculator</h2>
+      <div class="grid">
+        <div>
+          <label for="start">Clock-in time</label>
+          <input type="time" id="start" value="09:00">
+        </div>
+        <div>
+          <label for="end">Clock-out time</label>
+          <input type="time" id="end" value="17:30">
+        </div>
+        <div>
+          <label for="brk">Unpaid break (minutes)</label>
+          <input type="number" id="brk" min="0" value="30">
+        </div>
+      </div>
+      <button class="btn" id="calcBtn" type="button">Calculate Hours</button>
+      <p class="result" id="result" aria-live="polite"></p>
+    </section>
+
+    <article class="article container-article">
+      <section class="reveal">
+        <h1 style="font-family:Georgia,serif;color:#f3e5ab;font-size:1.9rem;margin-top:0;">Work Hours and Time Card Calculator: The Complete Guide</h1>
+
+        <p>Accurate record keeping is the foundation of fair pay, smooth payroll and honest reporting. Whether you are an hourly employee, a freelancer billing clients by the hour or a manager reviewing a team's schedule, a reliable time and calculator method removes guesswork. Instead of adding up start and finish times in your head, you can rely on a structured approach that converts clock times into clear totals. This guide explains how time card calculations work, why small errors add up quickly and how to choose the right tool for your needs.</p>
+
+        <p>If you want to check your numbers right away, <a href="https://sumhours.com/work-hours-calculator/">Go Here</a> to open an online time and calculator built for exactly this task. The tool lets you enter clock-in, clock-out and break durations, then instantly shows total paid hours in both hours-and-minutes and decimal format. Using a dedicated calculator like this reduces the chance of mistakes and saves valuable time when you are preparing a weekly timesheet or verifying a payslip.</p>
+      </section>
+
+      <section class="reveal">
+        <h2>Why Accurate Work Hours Matter</h2>
+        <p>Every minute on the clock has a financial value. For hourly workers, even a ten-minute daily error can add up to more than three hours in a month. Over a year, that difference can represent a meaningful amount of money. Employers face similar pressure, because inaccurate time records can lead to payroll disputes, compliance problems and budgeting errors. A consistent time card process protects both sides of the relationship and builds trust.</p>
+        <p>Accurate hours also help you understand your own productivity and work-life balance. When you see exactly how long each day and week takes, patterns become visible. You may discover that certain tasks consistently run long, that your breaks are shorter than you planned or that you regularly exceed the standard working week. These insights are valuable for planning, negotiating workloads and maintaining healthy boundaries.</p>
+      </section>
+
+      <figure class="reveal">
+        <svg viewBox="0 0 520 260" role="img" aria-label="Bar chart showing hours worked from Monday to Friday">
+          <rect x="0" y="0" width="520" height="260" fill="#0f1628"/>
+          <line x1="50" y1="220" x2="490" y2="220" stroke="#9aa4bf" stroke-width="1"/>
+          <rect x="80"  y="90"  width="48" height="130" rx="8" fill="#d4af37"/>
+          <rect x="165" y="80"  width="48" height="140" rx="8" fill="#d4af37"/>
+          <rect x="250" y="100" width="48" height="120" rx="8" fill="#f3e5ab"/>
+          <rect x="335" y="70"  width="48" height="150" rx="8" fill="#d4af37"/>
+          <rect x="420" y="110" width="48" height="110" rx="8" fill="#f3e5ab"/>
+          <g font-family="system-ui, sans-serif" font-size="14" fill="#e8ecf5" text-anchor="middle">
+            <text x="104" y="244">Mon</text>
+            <text x="189" y="244">Tue</text>
+            <text x="274" y="244">Wed</text>
+            <text x="359" y="244">Thu</text>
+            <text x="444" y="244">Fri</text>
+          </g>
+          <g font-family="system-ui, sans-serif" font-size="13" fill="#f3e5ab" text-anchor="middle">
+            <text x="104" y="82">8.5h</text>
+            <text x="189" y="72">9h</text>
+            <text x="274" y="92">8h</text>
+            <text x="359" y="62">9.5h</text>
+            <text x="444" y="102">7.5h</text>
+          </g>
+        </svg>
+        <figcaption>A weekly view of worked hours makes overtime and patterns easy to spot.</figcaption>
+      </figure>
+
+      <section class="reveal">
+        <h2>How a Time Card Calculator Works</h2>
+        <p>A time card calculator follows a simple logic. It takes the time you started work, subtracts it from the time you finished, removes any unpaid breaks and presents the result as total worked time. While the math is straightforward, the details matter. Mixing up morning and afternoon times, forgetting a break or mishandling a shift that crosses midnight are the most common sources of error. A good calculator handles these situations automatically.</p>
+
+        <h3>Clock-in and Clock-out Times</h3>
+        <p>The starting point of any calculation is the clock-in time and the clock-out time. Use a consistent 24-hour format where possible, because it removes confusion between a.m. and p.m. For example, 14:30 is clearly 2:30 in the afternoon. When a shift runs past midnight, such as 22:00 to 06:00, the calculator must add 24 hours to the end time before subtracting. Many people forget this step and end up with a negative result.</p>
+
+        <h3>Subtracting Unpaid Breaks</h3>
+        <p>Unpaid breaks, such as a lunch period of thirty or sixty minutes, should always be subtracted from the total shift length. Paid breaks, such as short rest periods, are usually included in worked time. Check your company policy to confirm which category applies to your situation. Recording breaks accurately prevents overpayment disputes and ensures that your timesheet reflects what actually happened during the day.</p>
+
+        <h3>Converting Minutes into Decimal Hours</h3>
+        <p>Payroll systems often use decimal hours rather than hours and minutes. Converting is simple once you know the rule: divide the minutes by 60 and add the result to the whole hours. Fifteen minutes equals 0.25 hours, thirty minutes equals 0.5 hours and forty-five minutes equals 0.75 hours. A time and calculator tool performs this conversion instantly, which avoids the common mistake of treating 8:30 as 8.30 hours when it actually means 8.5 hours.</p>
+      </section>
+
+      <section class="reveal">
+        <h2>Step-by-Step Manual Calculation Example</h2>
+        <p>Understanding the manual method helps you verify any digital result. Suppose you clock in at 08:30 and clock out at 17:15, with a 30-minute unpaid lunch break. Follow these steps to calculate your paid time.</p>
+        <div class="example">
+          <p style="margin:0 0 8px;"><strong>Step 1:</strong> Subtract the start time from the end time: 17:15 minus 08:30 equals 8 hours and 45 minutes.</p>
+          <p style="margin:0 0 8px;"><strong>Step 2:</strong> Subtract the unpaid break: 8 hours 45 minutes minus 30 minutes equals 8 hours 15 minutes.</p>
+          <p style="margin:0;"><strong>Step 3:</strong> Convert to decimal: 15 minutes is 0.25 hours, so the total is 8.25 paid hours.</p>
+        </div>
+        <p>Repeat this process for each day of the week, then add the daily totals together. Double-checking a few entries by hand each week is a good habit, especially if your schedule changes often or you work split shifts.</p>
+      </section>
+
+      <section class="reveal">
+        <h2>Overtime, Regular Hours and Pay</h2>
+        <p>Most workers are paid a standard rate for regular hours and a higher rate for overtime. The exact rules depend on your country, contract and employer, so always confirm the details with your HR department or payroll provider. In many systems, hours beyond a set daily or weekly limit are treated as overtime. Tracking your hours precisely allows you to see when that threshold is approaching and plan your schedule accordingly.</p>
+        <p>To estimate your gross pay, multiply your regular hours by your standard hourly rate, then multiply your overtime hours by your overtime rate, and add the two amounts together. For instance, if you work 40 regular hours at 20 per hour and 5 overtime hours at 30 per hour, your gross pay before deductions would be 950. This simple calculation is far more reliable when your worked hours are recorded accurately.</p>
+      </section>
+
+      <figure class="reveal">
+        <svg viewBox="0 0 520 300" role="img" aria-label="Illustration of a paper time card with clock-in, clock-out and break fields">
+          <rect x="0" y="0" width="520" height="300" fill="#0f1628"/>
+          <rect x="120" y="30" width="280" height="240" rx="16" fill="#151f36" stroke="#d4af37" stroke-width="3"/>
+          <rect x="150" y="60" width="220" height="30" rx="6" fill="#d4af37"/>
+          <text x="260" y="81" font-family="system-ui, sans-serif" font-size="16" fill="#0b0f1a" text-anchor="middle" font-weight="700">TIME CARD</text>
+          <g stroke="#9aa4bf" stroke-width="2">
+            <line x1="150" y1="120" x2="370" y2="120"/>
+            <line x1="150" y1="155" x2="370" y2="155"/>
+            <line x1="150" y1="190" x2="370" y2="190"/>
+            <line x1="150" y1="225" x2="370" y2="225"/>
+          </g>
+          <g font-family="system-ui, sans-serif" font-size="14" fill="#f3e5ab">
+            <text x="150" y="112">Clock In</text>
+            <text x="150" y="147">Break Out</text>
+            <text x="150" y="182">Break In</text>
+            <text x="150" y="217">Clock Out</text>
+          </g>
+          <g font-family="system-ui, sans-serif" font-size="14" fill="#e8ecf5" text-anchor="end">
+            <text x="370" y="112">08:30</text>
+            <text x="370" y="147">12:00</text>
+            <text x="370" y="182">12:30</text>
+            <text x="370" y="217">17:15</text>
+          </g>
+        </svg>
+        <figcaption>A clear time card records every punch, which makes calculation and auditing simple.</figcaption>
+      </figure>
+
+      <section class="reveal">
+        <h2>Common Mistakes to Avoid</h2>
+        <p>Even experienced professionals make calculation errors. Knowing the most frequent mistakes helps you avoid them before they affect your pay or your records.</p>
+        <ul>
+          <li><strong>Mixing up decimal and clock time.</strong> Remember that 7:30 hours is 7.5 hours, not 7.3 hours.</li>
+          <li><strong>Forgetting unpaid breaks.</strong> Always subtract lunch periods that are not paid.</li>
+          <li><strong>Ignoring overnight shifts.</strong> When the end time is earlier than the start time, add 24 hours before subtracting.</li>
+          <li><strong>Rounding too early.</strong> Calculate exact minutes first, then round only if your policy allows it.</li>
+          <li><strong>Skipping weekly reviews.</strong> Checking your totals every week catches small errors before they become large problems.</li>
+        </ul>
+        <p>Keeping a simple log of your daily punches and reviewing it regularly is one of the most effective ways to maintain accuracy.</p>
+      </section>
+
+      <section class="reveal">
+        <h2>Choosing the Best Time and Calculator Tool</h2>
+        <p>Not every calculator is designed for the same purpose. Some focus on simple time differences, while others handle multiple shifts, overnight work, break deductions and decimal conversion in one place. When evaluating a tool, look for a clean interface, clear results, support for both hours-and-minutes and decimal output and the ability to handle edge cases like shifts that cross midnight.</p>
+        <p>Mobile responsiveness is also important, because many people record hours on their phones while they are on the move. A calculator that loads quickly, works without complicated setup and displays results in plain language saves time and reduces frustration. Privacy matters too. Choose a tool that does not require unnecessary personal information just to perform a basic calculation.</p>
+        <p>For freelancers, a time and calculator tool can also support invoicing. Converting your tracked hours into a clear total makes it easy to bill clients accurately and to demonstrate exactly how your time was spent.</p>
+      </section>
+
+      <section class="reveal">
+        <h2>Frequently Asked Questions</h2>
+
+        <h3>How do I calculate work hours quickly?</h3>
+        <p>Subtract your clock-in time from your clock-out time, subtract any unpaid break, and convert the remaining minutes into decimal form if needed. A digital calculator can do this instantly.</p>
+
+        <h3>Should breaks be included in worked hours?</h3>
+        <p>It depends on your employer. Unpaid breaks are usually deducted, while short paid rest periods are normally counted as working time. Always confirm your company policy.</p>
+
+        <h3>How do I handle a shift that ends after midnight?</h3>
+        <p>Add 24 hours to the end time before subtracting the start time. For example, a shift from 22:00 to 06:00 equals eight hours.</p>
+
+        <h3>Why do payroll systems use decimal hours?</h3>
+        <p>Decimal hours make multiplication by an hourly rate straightforward. A value of 7.75 hours can be multiplied directly by your pay rate, which reduces calculation errors.</p>
+      </section>
+
+      <section class="reveal">
+        <h2>Final Thoughts</h2>
+        <p>A precise time card process protects your income, supports fair payroll and gives you a clearer picture of how you spend your working time. By understanding the basic logic behind calculations, avoiding common mistakes and using a reliable time and calculator tool, you can keep accurate records with minimal effort. Start tracking consistently today, review your totals every week and enjoy the confidence that comes with knowing your hours are right.</p>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Work Hours &amp; Time Card Calculator. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Reveal sections on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    // Work hours calculator
+    const startEl = document.getElementById('start');
+    const endEl = document.getElementById('end');
+    const brkEl = document.getElementById('brk');
+    const resultEl = document.getElementById('result');
+
+    function toMinutes(value) {
+      if (!value) return null;
+      const [h, m] = value.split(':').map(Number);
+      return h * 60 + m;
+    }
+
+    function calculateHours() {
+      const start = toMinutes(startEl.value);
+      const end = toMinutes(endEl.value);
+      const breakMin = Math.max(0, parseInt(brkEl.value, 10) || 0);
+
+      if (start === null || end === null) {
+        resultEl.textContent = 'Please enter both clock-in and clock-out times.';
+        return;
+      }
+
+      let diff = end - start;
+      if (diff < 0) diff += 24 * 60; // overnight shift
+
+      const worked = diff - breakMin;
+      if (worked < 0) {
+        resultEl.textContent = 'The break is longer than the shift.';
+        return;
+      }
+
+      const hours = Math.floor(worked / 60);
+      const minutes = worked % 60;
+      const decimal = (worked / 60).toFixed(2);
+      resultEl.textContent = `${hours}h ${minutes}m worked = ${decimal} decimal hours`;
+    }
+
+    document.getElementById('calcBtn').addEventListener('click', calculateHours);
+    calculateHours();
+  </script>
+</body>
+</html>
